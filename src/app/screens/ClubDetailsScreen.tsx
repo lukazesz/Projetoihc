@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Users, Calendar, MessageSquare, Bell, Settings } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface ClubDetailsScreenProps {
   club: any;
@@ -9,6 +10,7 @@ interface ClubDetailsScreenProps {
 
 export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) {
   const [isMember, setIsMember] = useState(club.isMember || false);
+  const { theme } = useTheme();
 
   const discussions = [
     {
@@ -66,17 +68,17 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
       <button
         onClick={() => onNavigate('clubs')}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
+        className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
         aria-label="Voltar"
       >
         <ArrowLeft size={20} />
         <span>Voltar</span>
       </button>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-colors">
         <div className="relative h-48 bg-gradient-to-br from-purple-500 to-pink-500">
           <ImageWithFallback
             src={club.image}
@@ -88,20 +90,20 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
         <div className="p-6">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h1 className="text-2xl mb-2">{club.name}</h1>
-              <p className="text-gray-600">{club.description}</p>
+              <h1 className="text-2xl mb-2 dark:text-white">{club.name}</h1>
+              <p className="text-gray-600 dark:text-gray-300">{club.description}</p>
             </div>
             {isMember && (
               <button
                 aria-label="Configurações do clube"
-                className="p-2 text-gray-600 hover:bg-gray-100 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="p-2 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 <Settings size={20} />
               </button>
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 mb-6 text-gray-600">
+          <div className="flex flex-wrap items-center gap-4 mb-6 text-gray-600 dark:text-gray-300">
             <div className="flex items-center gap-2">
               <Users size={20} />
               <span>{club.members} membros</span>
@@ -117,7 +119,7 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
               <>
                 <button
                   onClick={() => setIsMember(false)}
-                  className="flex-1 bg-gray-100 text-gray-700 py-3 px-6 rounded-full hover:bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  className="flex-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 py-3 px-6 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 >
                   Sair do Clube
                 </button>
@@ -140,38 +142,38 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl mb-4">Livro Atual</h2>
-        <div className="flex items-center gap-4 p-4 bg-purple-50 rounded-lg">
-          <div className="w-20 h-28 bg-gray-300 rounded flex-shrink-0" />
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
+        <h2 className="text-xl mb-4 dark:text-white">Livro Atual</h2>
+        <div className="flex items-center gap-4 p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg">
+          <div className="w-20 h-28 bg-gray-300 dark:bg-gray-600 rounded flex-shrink-0" />
           <div>
-            <h3 className="mb-1">{club.currentBook}</h3>
-            <p className="text-sm text-gray-600 mb-2">Leitura em andamento</p>
-            <button className="text-sm text-purple-600 hover:text-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded px-2 py-1">
+            <h3 className="mb-1 dark:text-white">{club.currentBook}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Leitura em andamento</p>
+            <button className="text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded px-2 py-1">
               Ver detalhes do livro →
             </button>
           </div>
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl">Próximos Eventos</h2>
+          <h2 className="text-xl dark:text-white">Próximos Eventos</h2>
         </div>
         <div className="space-y-3">
           {upcomingEvents.map((event) => (
-            <div key={event.id} className="p-4 bg-gray-50 rounded-lg">
+            <div key={event.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors">
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-sm">{event.title}</h3>
+                <h3 className="text-sm dark:text-white">{event.title}</h3>
                 <span className={`text-xs px-2 py-1 rounded-full ${
                   event.type === 'online' 
-                    ? 'bg-blue-100 text-blue-700' 
-                    : 'bg-green-100 text-green-700'
+                    ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300' 
+                    : 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
                 }`}>
                   {event.type}
                 </span>
               </div>
-              <div className="flex items-center gap-4 text-sm text-gray-600">
+              <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                 <span>📅 {event.date}</span>
                 <span>🕐 {event.time}</span>
                 {event.location && <span>📍 {event.location}</span>}
@@ -181,9 +183,9 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl">Discussões Recentes</h2>
+          <h2 className="text-xl dark:text-white">Discussões Recentes</h2>
           {isMember && (
             <button className="bg-purple-500 text-white px-4 py-2 rounded-full hover:bg-purple-600 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2">
               Nova Discussão
@@ -192,7 +194,7 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
         </div>
         <div className="space-y-3">
           {discussions.map((discussion) => (
-            <article key={discussion.id} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer">
+            <article key={discussion.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
               <div className="flex items-start gap-3">
                 <ImageWithFallback
                   src={discussion.avatar}
@@ -201,11 +203,11 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h3 className="text-sm">{discussion.title}</h3>
-                    <time className="text-xs text-gray-500">{discussion.time}</time>
+                    <h3 className="text-sm dark:text-white">{discussion.title}</h3>
+                    <time className="text-xs text-gray-500 dark:text-gray-400">{discussion.time}</time>
                   </div>
-                  <p className="text-sm text-gray-600 mb-2">{discussion.preview}</p>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{discussion.preview}</p>
+                  <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>{discussion.user}</span>
                     <span>•</span>
                     <div className="flex items-center gap-1">
@@ -220,8 +222,8 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
-        <h2 className="text-xl mb-4">Membros ({members.length})</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
+        <h2 className="text-xl mb-4 dark:text-white">Membros ({members.length})</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {members.map((member, index) => (
             <div key={index} className="text-center">
@@ -230,8 +232,8 @@ export function ClubDetailsScreen({ club, onNavigate }: ClubDetailsScreenProps) 
                 alt={`Foto de ${member.name}`}
                 className="w-16 h-16 rounded-full object-cover mx-auto mb-2"
               />
-              <p className="text-sm">{member.name}</p>
-              <span className="text-xs text-gray-500">{member.role}</span>
+              <p className="text-sm dark:text-white">{member.name}</p>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{member.role}</span>
             </div>
           ))}
         </div>

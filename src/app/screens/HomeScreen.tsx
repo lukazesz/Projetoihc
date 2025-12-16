@@ -83,12 +83,12 @@ export function HomeScreen({ onNavigate }: HomeScreenProps) {
   ];
 
   return (
-    <div className="space-y-6 sm:space-y-8">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8">
       <ActivityFeed activities={activities} />
       
       <section>
-        <h2 className="text-xl mb-4 dark:text-white">Recomendados para Você</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+        <h2 className="text-xl mb-3 sm:mb-4 dark:text-white">Recomendados para Você</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-4">
           {recommendedBooks.map((book) => (
             <div
               key={book.id}

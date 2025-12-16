@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Star, Heart, Bookmark, Share2, MessageCircle } from 'lucide-react';
 import { ImageWithFallback } from '../components/figma/ImageWithFallback';
+import { useTheme } from '../contexts/ThemeContext';
 
 interface BookDetailsScreenProps {
   book: any;
@@ -12,6 +13,7 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
   const [isLiked, setIsLiked] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [readingStatus, setReadingStatus] = useState<'none' | 'wantToRead' | 'reading' | 'finished'>('none');
+  const { theme } = useTheme();
 
   const reviews = [
     {
@@ -39,20 +41,20 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6">
       <button
         onClick={() => onNavigate('discover')}
-        className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
+        className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-2 py-1"
         aria-label="Voltar"
       >
         <ArrowLeft size={20} />
         <span>Voltar</span>
       </button>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden transition-colors">
         <div className="grid md:grid-cols-3 gap-6 p-6">
           <div className="md:col-span-1">
-            <div className="aspect-[2/3] bg-gray-200 rounded-lg overflow-hidden">
+            <div className="aspect-[2/3] bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
               <ImageWithFallback
                 src={book.cover}
                 alt={`Capa do livro ${book.title}`}
@@ -63,8 +65,8 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
 
           <div className="md:col-span-2 space-y-4">
             <div>
-              <h1 className="text-2xl md:text-3xl mb-2">{book.title}</h1>
-              <p className="text-lg text-gray-600">por {book.author}</p>
+              <h1 className="text-2xl md:text-3xl mb-2 dark:text-white">{book.title}</h1>
+              <p className="text-lg text-gray-600 dark:text-gray-300">por {book.author}</p>
             </div>
 
             <div className="flex items-center gap-4">
@@ -81,13 +83,13 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
                       className={`${
                         star <= (userRating || book.rating || 0)
                           ? 'fill-yellow-400 text-yellow-400'
-                          : 'text-gray-300'
+                          : 'text-gray-300 dark:text-gray-600'
                       } transition-colors cursor-pointer hover:text-yellow-400`}
                     />
                   </button>
                 ))}
               </div>
-              <span className="text-gray-600">
+              <span className="text-gray-600 dark:text-gray-400">
                 {book.rating || 4.5}/5 ({book.reviews || 0} avaliações)
               </span>
             </div>
@@ -100,7 +102,7 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
                   className={`px-4 py-2 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                     readingStatus === status.id
                       ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
                 >
                   {status.label}
@@ -108,11 +110,11 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
               ))}
             </div>
 
-            <div className="flex items-center gap-4 pt-4 border-t border-gray-200">
+            <div className="flex items-center gap-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => setIsLiked(!isLiked)}
                 aria-label={isLiked ? "Remover curtida" : "Curtir"}
-                className="flex items-center gap-2 text-gray-600 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-red-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
               >
                 <Heart size={20} className={isLiked ? 'fill-red-500 text-red-500' : ''} />
                 <span>Curtir</span>
@@ -121,7 +123,7 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
               <button
                 onClick={() => setIsSaved(!isSaved)}
                 aria-label={isSaved ? "Remover dos salvos" : "Salvar"}
-                className="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
               >
                 <Bookmark size={20} className={isSaved ? 'fill-blue-500 text-blue-500' : ''} />
                 <span>Salvar</span>
@@ -129,16 +131,16 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
 
               <button
                 aria-label="Compartilhar"
-                className="flex items-center gap-2 text-gray-600 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
+                className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-3 py-2"
               >
                 <Share2 size={20} />
                 <span>Compartilhar</span>
               </button>
             </div>
 
-            <div className="pt-4 border-t border-gray-200">
-              <h3 className="text-lg mb-2">Sobre o Livro</h3>
-              <p className="text-gray-700 leading-relaxed">
+            <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg mb-2 dark:text-white">Sobre o Livro</h3>
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 Uma história emocionante que cativa leitores de todas as idades. 
                 Com personagens memoráveis e uma trama envolvente, este livro se tornou 
                 um clássico da literatura mundial.
@@ -148,9 +150,9 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 transition-colors">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl">Avaliações</h2>
+          <h2 className="text-xl dark:text-white">Avaliações</h2>
           <button
             onClick={() => onNavigate('addReview', { book })}
             className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
@@ -161,7 +163,7 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
 
         <div className="space-y-4">
           {reviews.map((review) => (
-            <article key={review.id} className="p-4 bg-gray-50 rounded-lg">
+            <article key={review.id} className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors">
               <div className="flex items-start gap-3 mb-3">
                 <ImageWithFallback
                   src={review.avatar}
@@ -170,19 +172,19 @@ export function BookDetailsScreen({ book, onNavigate }: BookDetailsScreenProps) 
                 />
                 <div className="flex-1">
                   <div className="flex items-center justify-between mb-1">
-                    <h4 className="text-sm">{review.user}</h4>
-                    <time className="text-xs text-gray-500">{review.date}</time>
+                    <h4 className="text-sm dark:text-white">{review.user}</h4>
+                    <time className="text-xs text-gray-500 dark:text-gray-400">{review.date}</time>
                   </div>
                   <div className="flex items-center gap-1 mb-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <Star
                         key={star}
                         size={14}
-                        className={star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}
+                        className={star <= review.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300 dark:text-gray-600'}
                       />
                     ))}
                   </div>
-                  <p className="text-sm text-gray-700">{review.text}</p>
+                  <p className="text-sm text-gray-700 dark:text-gray-300">{review.text}</p>
                 </div>
               </div>
             </article>

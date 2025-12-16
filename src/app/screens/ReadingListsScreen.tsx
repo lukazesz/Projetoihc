@@ -86,24 +86,24 @@ export function ReadingListsScreen({ onNavigate }: ReadingListsScreenProps) {
   const tabs = [
     { id: 'reading' as const, label: 'Lendo Agora', icon: BookOpen, color: 'blue' },
     { id: 'wantToRead' as const, label: 'Quero Ler', icon: Clock, color: 'orange' },
-    { id: 'finished' as const, label: 'Já Li', icon: CheckCircle, color: 'green' },
+    { id: 'finished' as const, label: 'Lidos', icon: CheckCircle, color: 'green' },
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl">Minhas Listas de Leitura</h1>
+    <div className="max-w-5xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h1 className="text-2xl dark:text-white">Minhas Listas de Leitura</h1>
         <button
           onClick={() => onNavigate('discover')}
-          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900 text-sm sm:text-base"
         >
           <Plus size={20} />
           <span>Adicionar Livro</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md overflow-hidden">
-        <div className="flex border-b border-gray-200 overflow-x-auto">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
+        <div className="flex border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const count = lists[tab.id].length;
@@ -111,16 +111,17 @@ export function ReadingListsScreen({ onNavigate }: ReadingListsScreenProps) {
               <button
                 key={tab.id}
                 onClick={() => setActiveList(tab.id)}
-                className={`flex-1 min-w-[150px] flex items-center justify-center gap-2 px-6 py-4 border-b-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`flex-1 min-w-[120px] sm:min-w-[150px] flex items-center justify-center gap-1 sm:gap-2 px-3 sm:px-6 py-3 sm:py-4 border-b-2 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base ${
                   activeList === tab.id
-                    ? `border-${tab.color}-500 text-${tab.color}-600 bg-${tab.color}-50`
-                    : 'border-transparent text-gray-600 hover:bg-gray-50'
+                    ? `border-${tab.color}-500 text-${tab.color}-600 dark:text-${tab.color}-400 bg-${tab.color}-50 dark:bg-${tab.color}-900/20`
+                    : 'border-transparent text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50'
                 }`}
                 aria-current={activeList === tab.id ? 'page' : undefined}
               >
-                <Icon size={20} aria-hidden="true" />
-                <span>{tab.label}</span>
-                <span className="bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full text-sm">
+                <Icon size={18} className="sm:w-5 sm:h-5" aria-hidden="true" />
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.label.split(' ')[0]}</span>
+                <span className="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-1.5 sm:px-2 py-0.5 rounded-full text-xs sm:text-sm">
                   {count}
                 </span>
               </button>
@@ -128,27 +129,27 @@ export function ReadingListsScreen({ onNavigate }: ReadingListsScreenProps) {
           })}
         </div>
 
-        <div className="p-6">
+        <div className="p-4 sm:p-6">
           {lists[activeList].length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg mb-4">
+              <p className="text-gray-500 dark:text-gray-400 text-lg mb-4">
                 Nenhum livro nesta lista
               </p>
               <button
                 onClick={() => onNavigate('discover')}
-                className="text-blue-500 hover:text-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-4 py-2"
+                className="text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 rounded px-4 py-2"
               >
                 Explorar livros
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {lists[activeList].map((book) => (
                 <article
                   key={book.id}
-                  className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow"
+                  className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 sm:p-4 hover:shadow-md transition-shadow h-full flex flex-col"
                 >
-                  <div className="flex gap-4">
+                  <div className="flex gap-3 sm:gap-4 flex-grow">
                     <div
                       onClick={() => onNavigate('bookDetails', { book })}
                       className="cursor-pointer flex-shrink-0"
@@ -156,34 +157,34 @@ export function ReadingListsScreen({ onNavigate }: ReadingListsScreenProps) {
                       <ImageWithFallback
                         src={book.cover}
                         alt={`Capa de ${book.title}`}
-                        className="w-24 h-36 object-cover rounded"
+                        className="w-20 h-28 sm:w-24 sm:h-36 object-cover rounded"
                       />
                     </div>
 
-                    <div className="flex-1 flex flex-col">
+                    <div className="flex-1 flex flex-col min-w-0">
                       <h3
                         onClick={() => onNavigate('bookDetails', { book })}
-                        className="text-sm mb-1 cursor-pointer hover:text-blue-600 transition-colors"
+                        className="text-sm sm:text-base mb-1 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition-colors dark:text-white line-clamp-2"
                       >
                         {book.title}
                       </h3>
-                      <p className="text-xs text-gray-600 mb-auto">{book.author}</p>
+                      <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-auto line-clamp-1">{book.author}</p>
 
                       {book.progress !== undefined && (
-                        <div className="mt-3">
-                          <div className="flex justify-between text-xs text-gray-600 mb-1">
+                        <div className="mt-2 sm:mt-3">
+                          <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mb-1">
                             <span>Progresso</span>
                             <span>{book.progress}%</span>
                           </div>
                           <div
-                            className="w-full bg-gray-200 rounded-full h-2"
+                            className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2"
                             role="progressbar"
                             aria-valuenow={book.progress}
                             aria-valuemin={0}
                             aria-valuemax={100}
                           >
                             <div
-                              className="bg-blue-500 h-full rounded-full transition-all"
+                              className="bg-blue-500 dark:bg-blue-400 h-full rounded-full transition-all"
                               style={{ width: `${book.progress}%` }}
                             />
                           </div>
@@ -192,7 +193,7 @@ export function ReadingListsScreen({ onNavigate }: ReadingListsScreenProps) {
 
                       <button
                         onClick={() => removeBook(book.id)}
-                        className="mt-3 flex items-center gap-1 text-xs text-red-500 hover:text-red-600 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded px-2 py-1 self-start"
+                        className="mt-2 sm:mt-3 flex items-center gap-1 text-xs text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 rounded px-2 py-1 self-start"
                         aria-label={`Remover ${book.title}`}
                       >
                         <Trash2 size={14} />
