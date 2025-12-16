@@ -61,7 +61,7 @@ function AppContent() {
     { id: 'discover', label: 'Descobrir', icon: Sparkles },
     { id: 'readingLists', label: 'Minhas Listas', icon: List },
     { id: 'clubs', label: 'Clubes', icon: UsersIcon },
-    { id: 'profile', label: 'Perfil', icon: BookMarked },
+    { id: 'profile', label: 'Perfil', icon: BookMarked, mobileHidden: true }, // Hidden on mobile
   ];
 
   const renderScreen = () => {
@@ -95,10 +95,10 @@ function AppContent() {
           <div className="flex items-center justify-between gap-2 sm:gap-4">
             <button
               aria-label="Menu"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => handleNavigate('profile')}
               className="lg:hidden p-1.5 sm:p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              <Menu size={18} className="sm:w-6 sm:h-6" />
+              <Menu size={18} className="sm:w-6 sm:h-6 dark:text-gray-200" />
             </button>
             
             <h1 
@@ -149,6 +149,24 @@ function AppContent() {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = navigation.screen === item.id;
+              // Hide profile button on mobile
+              if (item.mobileHidden) {
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => handleNavigate(item.id)}
+                    className={`hidden sm:flex items-center gap-1.5 sm:gap-2 px-2 sm:px-4 py-2 sm:py-3 border-b-2 transition-colors whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-base ${
+                      isActive
+                        ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+                        : 'border-transparent text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:border-gray-300 dark:hover:border-gray-600'
+                    }`}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    <Icon size={16} className="sm:w-5 sm:h-5" aria-hidden="true" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              }
               return (
                 <button
                   key={item.id}
@@ -161,7 +179,7 @@ function AppContent() {
                   aria-current={isActive ? 'page' : undefined}
                 >
                   <Icon size={16} className="sm:w-5 sm:h-5" aria-hidden="true" />
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <span>{item.label}</span>
                 </button>
               );
             })}
@@ -182,6 +200,7 @@ function AppContent() {
                 followers={234}
                 following={156}
                 bio="Apaixonada por fantasia e ficção científica 📚✨"
+                onNavigate={() => handleNavigate('profile')}
               />
               
               <ReadingList lists={readingLists} />
