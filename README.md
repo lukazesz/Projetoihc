@@ -51,17 +51,6 @@ O protótipo contempla, no mínimo, as seguintes telas:
 
 ------------------------------------------------------------------------
 
-## 🛠️ Tecnologias Utilizadas
-
--   **HTML5**
--   **CSS3**
--   **JavaScript**
--   **React**
--   **Vite**
--   **TypeScript**
-
-------------------------------------------------------------------------
-
 ## ▶️ Como Executar o Projeto Localmente
 
 ``` bash
